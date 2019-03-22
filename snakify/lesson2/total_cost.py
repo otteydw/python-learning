@@ -1,14 +1,14 @@
 # https://snakify.org/en/lessons/integer_float_numbers/problems/
 
-# Given the integer N - the number of minutes that is passed since midnight - how many hours and minutes are displayed on the 24h digital clock?
-# The program should print two numbers: the number of hours(between 0 and 23) and the number of minutes(between 0 and 59).
-# For example, if N = 150, then 150 minutes have passed since midnight - i.e. now is 2: 30 am. So the program should print 2 30.
+# A cupcake costs A dollars and B cents. Determine, how many dollars and cents should one pay for N cupcakes. A program gets three numbers: A, B, N. It should print two numbers: total cost in dollars and cents.
 
-# import math
+a = int(input('Dollars: '))
+b = int(input('Cents: '))
+n = int(input('Quantity: '))
 
-n = int(input('Number of minutes that have passed since midnight: '))
+total_cost = n * (a + float(b)/100)
 
-hours = int(n / 60)
-minutes = n - (60 * hours)
+dollars = str(total_cost).split('.')[0]
+cents = str(total_cost).split('.')[1]
 
-print(str(hours) + ' ' + str(minutes))
+print(str(dollars) + ' ' + str(cents))
