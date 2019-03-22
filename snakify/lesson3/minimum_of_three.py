@@ -4,7 +4,7 @@
 
 a = int(input('Integer 1: '))
 b = int(input('Integer 2: '))
-c = int(input('Integer 2: '))
+c = int(input('Integer 3: '))
 
 if a <= b and a <= c:
     print(a)
