@@ -6,8 +6,8 @@
 
 startx = int(input('Start X: '))
 starty = int(input('Start Y: '))
-endx = int(input('Start X: '))
-endy = int(input('Start Y: '))
+endx = int(input('End X: '))
+endy = int(input('End Y: '))
 
 if startx == endx or starty == endy:
     print('YES')
