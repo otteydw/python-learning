@@ -2,8 +2,6 @@
 
 # Given an integer number, print its last digit.
 
-import math
-
 a = str(input('Enter an integer: '))
 
 print(a[-1])
