@@ -26,7 +26,6 @@ def printMenu():
 
 """)
     x = 0
-    # while x < 1 and x > 4:
     while x not in (1, 2, 3, 4):
         x = int(input("What would you like to do today? (Enter a number) "))
     return x
@@ -35,5 +34,11 @@ def printMenu():
 while True:
     selection = printMenu()
 
-    if selection == 4:
+    if selection == 1:
+        print()
+    elif selection == 2:
+        print()
+    elif selection == 3:
+        print()
+    elif selection == 4:
         exit()
