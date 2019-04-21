@@ -32,4 +32,8 @@ def printMenu():
     return x
 
 
-printMenu()
+while True:
+    selection = printMenu()
+
+    if selection == 4:
+        exit()
