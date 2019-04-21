@@ -14,9 +14,22 @@ class student:
         print(self.grades)
 
 
-student1 = student('Dan')
+def printMenu():
+    print("""
 
-print(student1.name)
-student1.addGrade(1)
-student1.addGrade(10)
-student1.printGrades()
+    Welcome go Grade Central
+
+    [1] - Enter Grades
+    [2] - Remove Student
+    [3] - Student Average Grades
+    [4] - Exit
+
+""")
+    x = 0
+    # while x < 1 and x > 4:
+    while x not in (1, 2, 3, 4):
+        x = int(input("What would you like to do today? (Enter a number) "))
+    return x
+
+
+printMenu()
