@@ -18,9 +18,20 @@ def menu():
     return x
 
 
+def login():
+    print('Welcome to the grading system.')
+    password = str(input('Please enter the admin password: '))
+    if password != 'dingo':
+        print('Invalid password.')
+        exit(1)
+
+
 gradeDict = {}
 
 while True:
+
+    login()
+
     selection = menu()
 
     if selection == 1:
