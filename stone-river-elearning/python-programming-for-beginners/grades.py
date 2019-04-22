@@ -63,6 +63,7 @@ while True:
         name = str(input('Student Name: '))
         if name in gradeDict:
             del gradeDict[name]
+            saveGrades(gradeDict)
         else:
             print('Student ' + name + ' does not exist.')
     elif selection == 3:
