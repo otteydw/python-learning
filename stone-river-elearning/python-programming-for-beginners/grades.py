@@ -1,19 +1,6 @@
 #!/usr/bin/python3
 
 
-class student:
-
-    def __init__(self, name):
-        self.name = name
-        self.grades = []
-
-    def addGrade(self, grade):
-        self.grades.append(grade)
-
-    def printGrades(self):
-        print(self.grades)
-
-
 def menu():
     print("""
 
@@ -31,12 +18,19 @@ def menu():
     return x
 
 
+gradeDict = {}
+
 while True:
     selection = menu()
 
     if selection == 1:
         # Enter Grades
-        print()
+        name = input('Student Name: ')
+        grade = input('Grade: ')
+        if name not in gradeDict:
+            gradeDict[name] = []
+        gradeDict[name].append(grade)
+        print(gradeDict)
     elif selection == 2:
         # Remove Student
         print()
