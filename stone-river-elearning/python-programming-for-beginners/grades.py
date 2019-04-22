@@ -45,7 +45,6 @@ def loadGrades():
         grades = dict(saveFile)
     else:
         grades = {}
-    # saveFile.close()
     return grades
 
 
