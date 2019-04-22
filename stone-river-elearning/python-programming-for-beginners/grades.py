@@ -14,7 +14,7 @@ class student:
         print(self.grades)
 
 
-def printMenu():
+def menu():
     print("""
 
     Welcome go Grade Central
@@ -32,13 +32,17 @@ def printMenu():
 
 
 while True:
-    selection = printMenu()
+    selection = menu()
 
     if selection == 1:
+        # Enter Grades
         print()
     elif selection == 2:
+        # Remove Student
         print()
     elif selection == 3:
+        # Student Average Grades
         print()
     elif selection == 4:
+        # Exit
         exit()
