@@ -28,6 +28,12 @@ def login():
         exit(1)
 
 
+def saveGrades(grades):
+    saveFile = open('~/grades.dat', 'w')
+    saveFile.write(str(grades))
+    saveFile.close()
+
+
 gradeDict = {}
 
 login()
@@ -51,6 +57,7 @@ while True:
             gradeDict[name] = []
         gradeDict[name].append(grade)
         print(gradeDict)
+        saveGrades(gradeDict)
     elif selection == 2:
         # Remove Student
         name = str(input('Student Name: '))
