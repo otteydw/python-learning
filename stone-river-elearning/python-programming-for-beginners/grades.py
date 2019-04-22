@@ -40,7 +40,7 @@ while True:
         print(gradeDict)
     elif selection == 2:
         # Remove Student
-        name = input('Student Name: ')
+        name = str(input('Student Name: '))
         if name in gradeDict:
             del gradeDict[name]
         else:
