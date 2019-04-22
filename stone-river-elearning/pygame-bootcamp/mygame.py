@@ -10,6 +10,8 @@ screenDim = (width, height)
 
 screen = pygame.display.set_mode(screenDim)
 
+pygame.display.set_caption('My First Game')
+
 finished = False
 while not finished:
 
