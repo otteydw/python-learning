@@ -2,6 +2,8 @@
 
 from statistics import mean
 
+gradefile = '/tmp/grades.dat'
+
 
 def menu():
     print("""
@@ -29,13 +31,25 @@ def login():
 
 
 def saveGrades(grades):
-    saveFile = open('~/grades.dat', 'w')
+    saveFile = open(gradefile, 'w')
     saveFile.write(str(grades))
     saveFile.close()
 
 
-gradeDict = {}
+def loadGrades():
+    try:
+        saveFile = eval(open(gradefile, 'r').read())
+    except FileNotFoundError:
+        saveFile=''
+    if saveFile != '':
+        grades = dict(saveFile)
+    else:
+        grades = {}
+    # saveFile.close()
+    return grades
 
+
+gradeDict = loadGrades()
 login()
 
 while True:
