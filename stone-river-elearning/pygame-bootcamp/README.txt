@@ -1,5 +1,5 @@
 Requires:
-pip install pygame
+pip3 install pygame
 
 https://opengameart.org/content/sports-pack-350
 https://opengameart.org/sites/default/files/kenney_sportsPack.zip
