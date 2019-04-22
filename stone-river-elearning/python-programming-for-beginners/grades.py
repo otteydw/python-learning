@@ -33,7 +33,11 @@ while True:
         print(gradeDict)
     elif selection == 2:
         # Remove Student
-        print()
+        name = input('Student Name: ')
+        if name in gradeDict:
+            del gradeDict[name]
+        else:
+            print('Student ' + name + ' does not exist.')
     elif selection == 3:
         # Student Average Grades
         print()
