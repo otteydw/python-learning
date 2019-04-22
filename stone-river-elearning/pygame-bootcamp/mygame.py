@@ -11,11 +11,13 @@ screenDim = (width, height)
 screen = pygame.display.set_mode(screenDim)
 
 finished = False
-while finished == False:
+while not finished:
 
     # Process all the events
     for event in pygame.event.get():
         # Do the things
-        print(event)
+        print(event)    # Debug
+        if event.type == pygame.QUIT:
+            exit()
 
     pygame.display.flip()   # Update the display
