@@ -12,6 +12,11 @@ screen = pygame.display.set_mode(screenDim)
 
 pygame.display.set_caption('My First Game')
 
+grassImage = pygame.image.load(
+    '/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/grass.png')
+grassImage = pygame.transform.scale(grassImage, screenDim)
+screen.blit(grassImage, (0, 0))
+
 finished = False
 while not finished:
 
