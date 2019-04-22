@@ -40,7 +40,7 @@ def loadGrades():
     try:
         saveFile = eval(open(gradefile, 'r').read())
     except FileNotFoundError:
-        saveFile=''
+        saveFile = ''
     if saveFile != '':
         grades = dict(saveFile)
     else:
