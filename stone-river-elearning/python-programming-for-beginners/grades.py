@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+from statistics import mean
+
 
 def menu():
     print("""
@@ -28,9 +30,9 @@ def login():
 
 gradeDict = {}
 
-while True:
+login()
 
-    login()
+while True:
 
     selection = menu()
 
@@ -58,7 +60,10 @@ while True:
             print('Student ' + name + ' does not exist.')
     elif selection == 3:
         # Student Average Grades
-        print()
+        print('Grade Averages:')
+        for name, grades in gradeDict.items():
+            print(name + ': ' + str(mean(grades)))
+        input("Press Enter to continue...")
     elif selection == 4:
         # Exit
         exit()
