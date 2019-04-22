@@ -25,8 +25,15 @@ while True:
 
     if selection == 1:
         # Enter Grades
-        name = input('Student Name: ')
-        grade = input('Grade: ')
+        grade = -1
+        name = str(input('Student Name: '))
+        while grade < 0 or grade > 100:
+            try:
+                grade = int(input('Grade: '))
+            except ValueError:
+                print('PLease input a valid integer')
+            if grade < 0 or grade > 100:
+                print("Grade must be between 0 and 100.")
         if name not in gradeDict:
             gradeDict[name] = []
         gradeDict[name].append(grade)
