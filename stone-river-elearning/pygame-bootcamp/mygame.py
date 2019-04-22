@@ -18,6 +18,8 @@ while not finished:
         # Do the things
         print(event)    # Debug
         if event.type == pygame.QUIT:
-            exit()
+            finished = True
 
     pygame.display.flip()   # Update the display
+
+pygame.quit()
