@@ -25,6 +25,17 @@ def movePlayer(direction,radius,absRot):
     newY = Hypotenuse * math.sin(math.pi/2 - (math.pi-finalRot)/2)
     return newX, newY, absRot + deltaTheta
 
+def updateFrameImages():
+    global screen,grassImage,goalLeft,goalMiddle,goalRight,ball,player,goalStart,ballX,ballY
+    screen.blit(grassImage, (0, 0))
+    screen.blit(player, (playerX - player.get_rect().width /
+                         2, playerY - player.get_rect().height/2))
+    screen.blit(goalLeft, (goalStart, 0,))
+    screen.blit(goalMiddle, (goalStart + goalLeft.get_rect().width, 0,))
+    screen.blit(goalRight, (goalStart + goalLeft.get_rect().width +
+                            goalMiddle.get_rect().width, 0,))
+    screen.blit(ball, (ballX - ball.get_rect().width /
+                       2, ballY - ball.get_rect().height/2))
 width = 900
 height = 700
 screenDim = (width, height)
@@ -90,29 +101,31 @@ goalRightHeight = goalRight.get_rect().height
 goalRight = cropSurface(
     goalRightWidth/2+adjust, goalRightHeight/2+adjust, 0, goalRightHeight/2-adjust, goalRight)
 
-screen.blit(grassImage, (0, 0))
+# screen.blit(grassImage, (0, 0))
 
 goalStart = (width - goalLeft.get_rect().width -
              goalMiddle.get_rect().width - goalRight.get_rect().width)/2
-screen.blit(goalLeft, (goalStart, 0,))
-screen.blit(goalMiddle, (goalStart + goalLeft.get_rect().width, 0,))
-screen.blit(goalRight, (goalStart + goalLeft.get_rect().width +
-                        goalMiddle.get_rect().width, 0,))
+# screen.blit(goalLeft, (goalStart, 0,))
+# screen.blit(goalMiddle, (goalStart + goalLeft.get_rect().width, 0,))
+# screen.blit(goalRight, (goalStart + goalLeft.get_rect().width +
+#                         goalMiddle.get_rect().width, 0,))
 
 playerX = width/2
 playerY = 530
 playerXOriginal = playerX
 playerYOriginal = playerY
-screen.blit(player, (playerX - player.get_rect().width /
-                     2, playerY - player.get_rect().height/2))
+# screen.blit(player, (playerX - player.get_rect().width /
+#                      2, playerY - player.get_rect().height/2))
 # screen.blit(foot, (0, 0))
 
 ballX = width/2
 ballY = 450
 
 radius = playerY - ballY
-screen.blit(ball, (ballX - ball.get_rect().width /
-                   2, ballY - ball.get_rect().height/2))
+# screen.blit(ball, (ballX - ball.get_rect().width /
+#                    2, ballY - ball.get_rect().height/2))
+
+# updateFrameImages()
 
 frame = pygame.time.Clock()
 finished = False
@@ -129,29 +142,22 @@ while not finished:
 
     if pressedKeys[pygame.K_LEFT]:
         print("LEFT KEY")
-        changeX, changeY, currentRotation = movePlayer('Left',radius,currentRotation)
-        player = pygame.transform.rotate(playerStart,currentRotation)
-        playerX = playerXOriginal + changeX
-        playerY = playerYOriginal - changeY
+        if currentRotation > -90:
+            changeX, changeY, currentRotation = movePlayer('Left',radius,currentRotation)
+            player = pygame.transform.rotate(playerStart,currentRotation)
+            playerX = playerXOriginal + changeX
+            playerY = playerYOriginal - changeY
     elif pressedKeys[pygame.K_RIGHT]:
         print("RIGHT KEY")
-        changeX, changeY, currentRotation = movePlayer('Right',radius,currentRotation)
-        player = pygame.transform.rotate(playerStart, currentRotation)
-        playerX = playerXOriginal + changeX
-        playerY = playerYOriginal - changeY
+        if currentRotation < 90:
+            changeX, changeY, currentRotation = movePlayer('Right',radius,currentRotation)
+            player = pygame.transform.rotate(playerStart, currentRotation)
+            playerX = playerXOriginal + changeX
+            playerY = playerYOriginal - changeY
     elif pressedKeys[pygame.K_SPACE]:
         print("SPACE KEY")
 
-    screen.blit(grassImage, (0, 0))
-    screen.blit(player, (playerX - player.get_rect().width /
-                         2, playerY - player.get_rect().height/2))
-    screen.blit(goalLeft, (goalStart, 0,))
-    screen.blit(goalMiddle, (goalStart + goalLeft.get_rect().width, 0,))
-    screen.blit(goalRight, (goalStart + goalLeft.get_rect().width +
-                            goalMiddle.get_rect().width, 0,))
-    screen.blit(ball, (ballX - ball.get_rect().width /
-                    2, ballY - ball.get_rect().height/2))
-
+    updateFrameImages()
     pygame.display.flip()   # Update the display
     frame.tick(30)  # FPS
 pygame.quit()
