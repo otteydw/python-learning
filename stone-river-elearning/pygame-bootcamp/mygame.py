@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import pygame
+import math
 
 pygame.init()
 
@@ -11,6 +12,18 @@ def cropSurface(newWidth, newHeight, cropWidth, cropHeight, image):
     newSurf.blit(image, (0, 0), (cropWidth, cropHeight, newWidth, newHeight))
     return newSurf
 
+def movePlayer(direction,radius,absRot):
+    yChange = 5
+    # deltaTheta = 5
+    deltaTheta = int(90/(radius/yChange))
+    if direction == 'Left':
+        deltaTheta *= -1
+    finalRot = (absRot + deltaTheta)*math.pi/180    # Final position in radians
+
+    Hypotenuse = (radius * math.sin(finalRot)/math.sin(math.pi -  finalRot)/20)
+    newX = Hypotenuse * math.cos(math.pi/2 - (math.pi-finalRot)/2)
+    newY = Hypotenuse * math.sin(math.pi/2 - (math.pi-finalRot)/2)
+    return newX, newY, absRot + deltaTheta
 
 width = 900
 height = 700
@@ -116,8 +129,15 @@ while not finished:
 
     if pressedKeys[pygame.K_LEFT]:
         print("LEFT KEY")
+        changeX, changeY, currentRotation = movePlayer('Left',radius,currentRotation)
+        player = pygame.transform.rotate(playerStart,currentRotation)
+        playerX = playerXOriginal + changeX
+        playerY = playerYOriginal - changeY
     elif pressedKeys[pygame.K_RIGHT]:
         print("RIGHT KEY")
+        changeX, changeY, currentRotation = movePlayer('Right',radius,currentRotation)
+        playerX = playerXOriginal + changeX
+        playerY = playerYOriginal - changeY
     elif pressedKeys[pygame.K_SPACE]:
         print("SPACE KEY")
 
