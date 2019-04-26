@@ -32,6 +32,8 @@ playerHeight = player.get_rect().height
 player = pygame.transform.scale(
     player, (playerWidth*rescale, playerHeight*rescale))
 player = pygame.transform.rotate(player, 90)
+playerStart = player
+currentRotation = 0
 
 foot = pygame.image.load(
     '/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/characterFoot.png').convert_alpha()
@@ -40,6 +42,7 @@ footHeight = foot.get_rect().height
 foot = pygame.transform.scale(
     foot, (footWidth*rescale, footHeight*rescale))
 foot = pygame.transform.rotate(foot, 90)
+footStart = foot
 
 rescaleBall = 2
 ball = pygame.image.load(
@@ -85,12 +88,16 @@ screen.blit(goalRight, (goalStart + goalLeft.get_rect().width +
 
 playerX = width/2
 playerY = 530
+playerXOriginal = playerX
+playerYOriginal = playerY
 screen.blit(player, (playerX - player.get_rect().width /
                      2, playerY - player.get_rect().height/2))
 # screen.blit(foot, (0, 0))
 
 ballX = width/2
 ballY = 450
+
+radius = playerY - ballY
 screen.blit(ball, (ballX - ball.get_rect().width /
                    2, ballY - ball.get_rect().height/2))
 
