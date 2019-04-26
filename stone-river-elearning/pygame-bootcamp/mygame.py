@@ -20,7 +20,7 @@ def movePlayer(direction,radius,absRot):
         deltaTheta *= -1
     finalRot = (absRot + deltaTheta)*math.pi/180    # Final position in radians
 
-    Hypotenuse = (radius * math.sin(finalRot)/math.sin(math.pi -  finalRot)/20)
+    Hypotenuse = (radius * math.sin(finalRot)/(math.sin((math.pi - finalRot)/2)))
     newX = Hypotenuse * math.cos(math.pi/2 - (math.pi-finalRot)/2)
     newY = Hypotenuse * math.sin(math.pi/2 - (math.pi-finalRot)/2)
     return newX, newY, absRot + deltaTheta
@@ -136,10 +136,21 @@ while not finished:
     elif pressedKeys[pygame.K_RIGHT]:
         print("RIGHT KEY")
         changeX, changeY, currentRotation = movePlayer('Right',radius,currentRotation)
+        player = pygame.transform.rotate(playerStart, currentRotation)
         playerX = playerXOriginal + changeX
         playerY = playerYOriginal - changeY
     elif pressedKeys[pygame.K_SPACE]:
         print("SPACE KEY")
+
+    screen.blit(grassImage, (0, 0))
+    screen.blit(player, (playerX - player.get_rect().width /
+                         2, playerY - player.get_rect().height/2))
+    screen.blit(goalLeft, (goalStart, 0,))
+    screen.blit(goalMiddle, (goalStart + goalLeft.get_rect().width, 0,))
+    screen.blit(goalRight, (goalStart + goalLeft.get_rect().width +
+                            goalMiddle.get_rect().width, 0,))
+    screen.blit(ball, (ballX - ball.get_rect().width /
+                    2, ballY - ball.get_rect().height/2))
 
     pygame.display.flip()   # Update the display
     frame.tick(30)  # FPS
