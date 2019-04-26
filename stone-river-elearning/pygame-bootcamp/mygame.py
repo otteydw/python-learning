@@ -28,17 +28,19 @@ def movePlayer(direction,radius,absRot):
 def updateFrameImages(showFoot=False):
     global screen,grassImage,goalLeft,goalMiddle,goalRight,ball,player,goalStart,ballX,ballY
     screen.blit(grassImage, (0, 0))
-    screen.blit(player, (playerX - player.get_rect().width /
-                         2, playerY - player.get_rect().height/2))
-    if showFoot:
-        global foot, footX, footY
-        screen.blit(foot, (footX - foot.get_rect().width/2, footY - foot.get_rect().height/2))
     screen.blit(goalLeft, (goalStart, 0,))
     screen.blit(goalMiddle, (goalStart + goalLeft.get_rect().width, 0,))
     screen.blit(goalRight, (goalStart + goalLeft.get_rect().width +
                             goalMiddle.get_rect().width, 0,))
+
+    if showFoot:
+        global foot, footX, footY
+        screen.blit(foot, (footX - foot.get_rect().width/2, footY - foot.get_rect().height/2))
+
     screen.blit(ball, (ballX - ball.get_rect().width /
                        2, ballY - ball.get_rect().height/2))
+    screen.blit(player, (playerX - player.get_rect().width /
+                         2, playerY - player.get_rect().height/2))
 
 width = 900
 height = 700
@@ -88,6 +90,8 @@ goalLeftHeight = goalLeft.get_rect().height
 adjust = 12
 goalLeft = cropSurface(goalLeftWidth/2+adjust, goalLeftHeight/2 +
                        adjust, goalLeftWidth/2-adjust, goalLeftHeight/2-adjust, goalLeft)
+
+goalHeight = goalLeft.get_rect().height
 
 goalMiddle = pygame.image.load(
     '/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/goalMiddle.png').convert_alpha()
@@ -171,11 +175,21 @@ while not finished:
             updateFrameImages()
             pygame.display.flip()
             frame.tick(30)
-        footX = (playerX + distanceToShoulder * math.cos(shoulderAngle) - 25*xMove*normMove)
-        footY = (playerY - distanceToShoulder * math.sin(shoulderAngle) - 25*yMove*normMove)
+        footX = (playerX + distanceToShoulder * math.cos(shoulderAngle) - 20*xMove*normMove)
+        footY = (playerY - distanceToShoulder * math.sin(shoulderAngle) - 20*yMove*normMove)
         foot = pygame.transform.rotate(footStart,currentRotation)
         updateFrameImages(True)
-        pygame.display.flip()
+        # pygame.display.flip()
+
+        ballXDirection = xMove * normMove
+        ballYDirection = yMove * normMove
+        speed = 20
+        while ballY >= goalHeight:
+            ballX -= speed*ballXDirection
+            ballY -= speed*ballYDirection
+            updateFrameImages()
+            pygame.display.flip()
+            frame.tick(30)
 
     updateFrameImages()
     pygame.display.flip()   # Update the display
