@@ -156,6 +156,15 @@ while not finished:
             playerY = playerYOriginal - changeY
     elif pressedKeys[pygame.K_SPACE]:
         print("SPACE KEY")
+        xMove = (playerX - ballX)/10    # Make small steps toward the ball
+        yMove = (playerY - ballY)/10
+        distanceToShoulder = 20
+        shoulderAngle = currentRotation*math.pi/180
+        for i in range(3):
+            playerX -= xMove
+            playerY -= yMove
+            updateFrameImages()
+            pygame.display.flip()
 
     updateFrameImages()
     pygame.display.flip()   # Update the display
