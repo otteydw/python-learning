@@ -46,7 +46,7 @@ ball = pygame.image.load(
     '/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/ball.png').convert_alpha()
 ballWidth = ball.get_rect().width
 ballHeight = ball.get_rect().height
-player = pygame.transform.scale(
+ball = pygame.transform.scale(
     ball, (ballWidth*rescaleBall, ballHeight*rescaleBall))
 
 goalLeft = pygame.image.load(
@@ -75,9 +75,6 @@ goalRight = cropSurface(
     goalRightWidth/2+adjust, goalRightHeight/2+adjust, 0, goalRightHeight/2-adjust, goalRight)
 
 screen.blit(grassImage, (0, 0))
-# screen.blit(player, (0, 0))
-# screen.blit(foot, (0, 0))
-# screen.blit(ball, (0, 0))
 
 goalStart = (width - goalLeft.get_rect().width -
              goalMiddle.get_rect().width - goalRight.get_rect().width)/2
@@ -85,6 +82,17 @@ screen.blit(goalLeft, (goalStart, 0,))
 screen.blit(goalMiddle, (goalStart + goalLeft.get_rect().width, 0,))
 screen.blit(goalRight, (goalStart + goalLeft.get_rect().width +
                         goalMiddle.get_rect().width, 0,))
+
+playerX = width/2
+playerY = 530
+screen.blit(player, (playerX - player.get_rect().width /
+                     2, playerY - player.get_rect().height/2))
+# screen.blit(foot, (0, 0))
+
+ballX = width/2
+ballY = 450
+screen.blit(ball, (ballX - ball.get_rect().width /
+                   2, ballY - ball.get_rect().height/2))
 
 finished = False
 while not finished:
