@@ -25,17 +25,21 @@ def movePlayer(direction,radius,absRot):
     newY = Hypotenuse * math.sin(math.pi/2 - (math.pi-finalRot)/2)
     return newX, newY, absRot + deltaTheta
 
-def updateFrameImages():
+def updateFrameImages(showFoot=False):
     global screen,grassImage,goalLeft,goalMiddle,goalRight,ball,player,goalStart,ballX,ballY
     screen.blit(grassImage, (0, 0))
     screen.blit(player, (playerX - player.get_rect().width /
                          2, playerY - player.get_rect().height/2))
+    if showFoot:
+        global foot, footX, footY
+        screen.blit(foot, (footX - foot.get_rect().width/2, footY - foot.get_rect().height/2))
     screen.blit(goalLeft, (goalStart, 0,))
     screen.blit(goalMiddle, (goalStart + goalLeft.get_rect().width, 0,))
     screen.blit(goalRight, (goalStart + goalLeft.get_rect().width +
                             goalMiddle.get_rect().width, 0,))
     screen.blit(ball, (ballX - ball.get_rect().width /
                        2, ballY - ball.get_rect().height/2))
+
 width = 900
 height = 700
 screenDim = (width, height)
@@ -158,6 +162,7 @@ while not finished:
         print("SPACE KEY")
         xMove = (playerX - ballX)/10    # Make small steps toward the ball
         yMove = (playerY - ballY)/10
+        normMove = 1/math.sqrt(xMove**2 + yMove**2)
         distanceToShoulder = 20
         shoulderAngle = currentRotation*math.pi/180
         for i in range(3):
@@ -165,6 +170,12 @@ while not finished:
             playerY -= yMove
             updateFrameImages()
             pygame.display.flip()
+            frame.tick(30)
+        footX = (playerX + distanceToShoulder * math.cos(shoulderAngle) - 25*xMove*normMove)
+        footY = (playerY - distanceToShoulder * math.sin(shoulderAngle) - 25*yMove*normMove)
+        foot = pygame.transform.rotate(footStart,currentRotation)
+        updateFrameImages(True)
+        pygame.display.flip()
 
     updateFrameImages()
     pygame.display.flip()   # Update the display
