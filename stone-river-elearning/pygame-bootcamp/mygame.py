@@ -104,6 +104,15 @@ while not finished:
         if event.type == pygame.QUIT:
             finished = True
 
+    pressedKeys = pygame.key.get_pressed()
+
+    if pressedKeys[pygame.K_LEFT]:
+        print("LEFT KEY")
+    elif pressedKeys[pygame.K_RIGHT]:
+        print("RIGHT KEY")
+    if pressedKeys[pygame.K_SPACE]:
+        print("SPACE KEY")
+
     pygame.display.flip()   # Update the display
 
 pygame.quit()
