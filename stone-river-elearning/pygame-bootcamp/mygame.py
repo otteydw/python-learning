@@ -94,6 +94,7 @@ ballY = 450
 screen.blit(ball, (ballX - ball.get_rect().width /
                    2, ballY - ball.get_rect().height/2))
 
+frame = pygame.time.Clock()
 finished = False
 while not finished:
 
@@ -110,9 +111,9 @@ while not finished:
         print("LEFT KEY")
     elif pressedKeys[pygame.K_RIGHT]:
         print("RIGHT KEY")
-    if pressedKeys[pygame.K_SPACE]:
+    elif pressedKeys[pygame.K_SPACE]:
         print("SPACE KEY")
 
     pygame.display.flip()   # Update the display
-
+    frame.tick(30)  # FPS
 pygame.quit()
