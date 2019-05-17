@@ -189,7 +189,7 @@ class Player(Game):
 
 class Target(Game):
     def __init__(self,screen,screenDimensions,start,goalHeight,goalEnd):
-        Game.__init__(self.screen,screenDimensions)
+        Game.__init__(self,screen,screenDimensions)
         self.targetX = start
         self.targetY = goalHeight
         self.target = None
@@ -238,6 +238,7 @@ def updateFrameImages(showFoot = False):
         newPlayer.blitFoot()
 
     newPlayer.blitPlayer()
+    target.blitTarget()
     newBall.blitBall()
 
 width = 900
@@ -272,13 +273,22 @@ background.loadGoalRight('/home/dottey/git/python-learning/stone-river-elearning
 
 background.setStart()
 
+goalEnd = (background.goalStart + background.goalLeft.get_rect().width + background.goalMiddle.get_rect().width + background.goalRight.get_rect().width)
+target = Target(screen,screenDim,background.goalStart,goalHeight,goalEnd)
+target.loadTarget('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/target.png')
+
 background.blitBackground()
+
+target.blitTarget()
 
 newPlayer.blitPlayer()
 
 newBall.blitBall()
 
+
+
 finished = False
+hitTarget = False
 while not finished:
 
     # Process all the events
@@ -302,6 +312,7 @@ while not finished:
         # I think this catches multiple space presses on a single press.  It causes the player to sometimes move after it reaches the ball.
         print("SPACE KEY")
         for i in range(3):
+            target.moveTarget(5)
             newPlayer.playerShoot(newBall.ballX, newBall.ballY)
             updateFrameImages()
             game.updateFrame()
@@ -312,14 +323,25 @@ while not finished:
         newBall.setKickDirection(newPlayer.playerX, newPlayer.playerY)
         speed = 20
         while newBall.ballY >= goalHeight:
+            target.moveTarget(5)
             newBall.kickBall(speed)
+
+            ballWidth = newBall.ball.get_rect().width
+            ballXLeft = newBall.ballX - ballWidth/2
+            ballHeight = newBall.ball.get_rect().height
+            ballYTop = newBall.ballY - ballHeight/2
+            hitTarget = target.checkTargetHit(ballXLeft, ballWidth, ballYTop, ballHeight)
             updateFrameImages()
             game.updateFrame()
+
+        if hitTarget:
+            print("Hit!")
 
         newPlayer.resetPlayer()
         newBall.resetBall()
         sleep(1)
 
+    target.moveTarget(5)
     updateFrameImages()
     game.updateFrame()
 pygame.quit()
