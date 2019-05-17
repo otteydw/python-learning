@@ -2,6 +2,7 @@
 
 import pygame
 import math
+from time import sleep
 
 pygame.init()
 
@@ -69,7 +70,13 @@ class Ball(Game):
         Game.__init__(self, screen, screenDimensions)
         self.ballX = self.screenDimensions[0]/2
         self.ballY = 450
+        self.ballXOriginal = self.ballX
+        self.ballYOriginal = self.ballY
         self.ball = None
+
+    def resetBall(self):
+        self.ballX = self.ballXOriginal
+        self.ballY = self.ballYOriginal
 
     def loadBall(self, name, rescaleBall):
         self.ball = pygame.image.load(name).convert_alpha()
@@ -110,6 +117,12 @@ class Player(Game):
         self.currentRotation = 0
         self.radius = 80
         self.deltaTheta = int(90/(self.radius/5))
+
+    def resetPlayer(self):
+        self.playerX = self.playerXOriginal
+        self.playerY = self.playerYOriginal
+        self.currentRotation = 0
+        self.rotatePlayer(self.currentRotation)
 
     def loadPlayer(self, name, rescale):
         self.player = pygame.image.load(name).convert_alpha()
@@ -259,6 +272,10 @@ while not finished:
             newBall.kickBall(speed)
             updateFrameImages()
             game.updateFrame()
+
+        newPlayer.resetPlayer()
+        newBall.resetBall()
+        sleep(1)
 
     updateFrameImages()
     game.updateFrame()
