@@ -118,13 +118,19 @@ class Player(Game):
         self.radius = 80
         self.deltaTheta = int(90/(self.radius/5))
 
+        self.name = None
+
         self.font = pygame.font.SysFont("Arial", 25)
         self.score = 0
-        self.scoreText = self.font.render("Score: "+str(self.score), True, (255, 255, 255))     # Render the font, anti-aliasing true, color white
+        # self.scoreText = self.font.render("Score: "+str(self.score), True, (255, 255, 255))     # Render the font, anti-aliasing true, color white
+
+    def setName(self,name):
+        self.name = name
+        self.scoreText = self.font.render(self.name + "'s Score: "+str(self.score), True, (255, 255, 255))     # Render the font, anti-aliasing true, color white
 
     def scored(self):
         self.score += 1
-        self.scoreText = self.font.render("Score: "+str(self.score), True, (255, 255, 255))     # Render the font, anti-aliasing true, color white
+        self.scoreText = self.font.render(self.name + "'s Score: "+str(self.score), True, (255, 255, 255))     # Render the font, anti-aliasing true, color white
 
     def blitScore(self):
         self.screen.blit(self.scoreText,(800-self.scoreText.get_width()/2,50-self.scoreText.get_height()/2))
@@ -296,6 +302,8 @@ newPlayer.blitPlayer()
 newBall.blitBall()
 
 
+name = input("Enter your name: ")
+newPlayer.setName(name)
 
 finished = False
 hitTarget = False
