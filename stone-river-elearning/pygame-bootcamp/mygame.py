@@ -148,7 +148,7 @@ class Player(Game):
         self.playerY = self.playerYOriginal - changeY
 
         if direction == 'Left': # revert
-            self.eltaTheta *= -1
+            self.deltaTheta *= -1
 
     def blitPlayer(self):
         self.screen.blit(self.player, (self.playerX - self.player.get_rect().width / 2, self.playerY - self.player.get_rect().height/2))
@@ -190,19 +190,15 @@ def movePlayer(direction,radius,absRot):
     newY = Hypotenuse * math.sin(math.pi/2 - (math.pi-finalRot)/2)
     return newX, newY, absRot + deltaTheta
 
-def updateFrameImages(showFoot=False):
-    global screen,grassImage,goalLeft,goalMiddle,goalRight,ball,player,goalStart,ballX,ballY
-    screen.blit(grassImage, (0, 0))
-    screen.blit(goalLeft, (goalStart, 0,))
-    screen.blit(goalMiddle, (goalStart + goalLeft.get_rect().width, 0,))
-    screen.blit(goalRight, (goalStart + goalLeft.get_rect().width + goalMiddle.get_rect().width, 0,))
+def updateFrameImages(showFoot = False):
+    global background, newPlayer, newBall
+    background.blitBackground()
 
     if showFoot:
-        global foot, footX, footY
-        screen.blit(foot, (footX - foot.get_rect().width/2, footY - foot.get_rect().height/2))
+        newPlayer.blitFoot()
 
-    screen.blit(ball, (ballX - ball.get_rect().width / 2, ballY - ball.get_rect().height/2))
-    screen.blit(player, (playerX - player.get_rect().width / 2, playerY - player.get_rect().height/2))
+    newPlayer.blitPlayer()
+    newBall.blitBall()
 
 width = 900
 height = 700
@@ -212,66 +208,36 @@ screen = pygame.display.set_mode(screenDim)
 
 pygame.display.set_caption('My First Game')
 
-grassImage = pygame.image.load('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/grass.png').convert()
-grassImage = pygame.transform.scale(grassImage, screenDim)
+game = Game(screen, screenDim)
+newPlayer = Player(screen, screenDim)
+newBall = Ball(screen, screenDim)
+background = Background(screen, screenDim)
+
+background.loadGrass('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/grass.png')
 
 rescale = 3
-player = pygame.image.load('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/characterBody.png').convert_alpha()
-playerWidth = player.get_rect().width
-playerHeight = player.get_rect().height
-player = pygame.transform.scale(
-    player, (playerWidth*rescale, playerHeight*rescale))
-player = pygame.transform.rotate(player, 90)
-playerStart = player
-currentRotation = 0
-
-foot = pygame.image.load('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/characterFoot.png').convert_alpha()
-footWidth = foot.get_rect().width
-footHeight = foot.get_rect().height
-foot = pygame.transform.scale(foot, (footWidth*rescale, footHeight*rescale))
-foot = pygame.transform.rotate(foot, 90)
-footStart = foot
+newPlayer.loadPlayer('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/characterBody.png', rescale)
+newPlayer.loadFoot('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/characterFoot.png', rescale)
 
 rescaleBall = 2
-ball = pygame.image.load('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/ball.png').convert_alpha()
-ballWidth = ball.get_rect().width
-ballHeight = ball.get_rect().height
-ball = pygame.transform.scale(ball, (ballWidth*rescaleBall, ballHeight*rescaleBall))
+newBall.loadBall('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/ball.png', rescaleBall)
 
-goalLeft = pygame.image.load('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/goalLeft.png').convert_alpha()
-goalLeft = pygame.transform.scale(goalLeft, (250, 270))
-goalLeftWidth = goalLeft.get_rect().width
-goalLeftHeight = goalLeft.get_rect().height
-adjust = 12
-goalLeft = cropSurface(goalLeftWidth/2+adjust, goalLeftHeight/2 + adjust, goalLeftWidth/2-adjust, goalLeftHeight/2-adjust, goalLeft)
+background.loadGoalLeft('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/goalLeft.png')
 
-goalHeight = goalLeft.get_rect().height
+goalHeight = background.goalLeft.get_rect().height
 
-goalMiddle = pygame.image.load('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/goalMiddle.png').convert_alpha()
-goalMiddle = pygame.transform.scale(goalMiddle, (250, 270))
-goalMiddleWidth = goalMiddle.get_rect().width
-goalMiddleHeight = goalMiddle.get_rect().height
-goalMiddle = cropSurface(goalMiddleWidth, goalMiddleHeight/2+adjust, 0, goalMiddleHeight/2-adjust, goalMiddle)
+background.loadGoalMiddle('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/goalMiddle.png')
 
-goalRight = pygame.image.load('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/goalRight.png').convert_alpha()
-goalRight = pygame.transform.scale(goalRight, (250, 270))
-goalRightWidth = goalRight.get_rect().width
-goalRightHeight = goalRight.get_rect().height
-goalRight = cropSurface(goalRightWidth/2+adjust, goalRightHeight/2+adjust, 0, goalRightHeight/2-adjust, goalRight)
+background.loadGoalRight('/home/dottey/git/python-learning/stone-river-elearning/pygame-bootcamp/images/goalRight.png')
 
-goalStart = (width - goalLeft.get_rect().width - goalMiddle.get_rect().width - goalRight.get_rect().width)/2
+background.setStart()
 
-playerX = width/2
-playerY = 530
-playerXOriginal = playerX
-playerYOriginal = playerY
+background.blitBackground()
 
-ballX = width/2
-ballY = 450
+newPlayer.blitPlayer()
 
-radius = playerY - ballY
+newBall.blitBall()
 
-frame = pygame.time.Clock()
 finished = False
 while not finished:
 
@@ -286,49 +252,30 @@ while not finished:
 
     if pressedKeys[pygame.K_LEFT]:
         print("LEFT KEY")
-        if currentRotation > -90:
-            changeX, changeY, currentRotation = movePlayer('Left',radius,currentRotation)
-            player = pygame.transform.rotate(playerStart,currentRotation)
-            playerX = playerXOriginal + changeX
-            playerY = playerYOriginal - changeY
+        if newPlayer.currentRotation > -90:
+            newPlayer.movePlayer('Left')
     elif pressedKeys[pygame.K_RIGHT]:
         print("RIGHT KEY")
-        if currentRotation < 90:
-            changeX, changeY, currentRotation = movePlayer('Right',radius,currentRotation)
-            player = pygame.transform.rotate(playerStart, currentRotation)
-            playerX = playerXOriginal + changeX
-            playerY = playerYOriginal - changeY
+        if newPlayer.currentRotation < 90:
+            newPlayer.movePlayer('Right')
     elif pressedKeys[pygame.K_SPACE]:
         # I think this catches multiple space presses on a single press.  It causes the player to sometimes move after it reaches the ball.
         print("SPACE KEY")
-        xMove = (playerX - ballX)/10    # Make small steps toward the ball
-        yMove = (playerY - ballY)/10
-        normMove = 1/math.sqrt(xMove**2 + yMove**2)
-        distanceToShoulder = 20
-        shoulderAngle = currentRotation*math.pi/180
         for i in range(3):
-            playerX -= xMove
-            playerY -= yMove
+            newPlayer.playerShoot(newBall.ballX, newBall.ballY)
             updateFrameImages()
-            pygame.display.flip()
-            frame.tick(30)
-        footX = (playerX + distanceToShoulder * math.cos(shoulderAngle) - 20*xMove*normMove)
-        footY = (playerY - distanceToShoulder * math.sin(shoulderAngle) - 20*yMove*normMove)
-        foot = pygame.transform.rotate(footStart,currentRotation)
+            game.updateFrame()
+        newPlayer.positionFoot(newBall.ballX, newBall.ballY)
         updateFrameImages(True)
-        pygame.display.flip()
+        game.updateFrame()
 
-        ballXDirection = xMove * normMove
-        ballYDirection = yMove * normMove
+        newBall.setKickDirection(newPlayer.playerX, newPlayer.playerY)
         speed = 20
-        while ballY >= goalHeight:
-            ballX -= speed*ballXDirection
-            ballY -= speed*ballYDirection
+        while newBall.ballY >= goalHeight:
+            newBall.kickBall(speed)
             updateFrameImages()
-            pygame.display.flip()
-            frame.tick(30)
+            game.updateFrame()
 
     updateFrameImages()
-    pygame.display.flip()   # Update the display
-    frame.tick(30)  # FPS
+    game.updateFrame()
 pygame.quit()
