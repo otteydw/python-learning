@@ -29,7 +29,7 @@ class Background(Game):
         self.grassImage = pygame.image.load(name).convert()
         self.grassImage = pygame.transform.scale(self.grassImage, self.screenDimensions)
 
-    def cropSurface(newWidth, newHeight, cropWidth, cropHeight, image):
+    def cropSurface(self, newWidth, newHeight, cropWidth, cropHeight, image):
         newSurf = pygame.Surface((newWidth, newHeight), pygame.SRCALPHA, 32)     # 32-bit pixels
         newSurf.blit(image, (0, 0), (cropWidth, cropHeight, newWidth, newHeight))
         return newSurf
@@ -39,21 +39,21 @@ class Background(Game):
         self.goalLeft = pygame.transform.scale(self.goalLeft, (250, 270))
         goalLeftWidth = self.goalLeft.get_rect().width
         goalLeftHeight = self.goalLeft.get_rect().height
-        self.goalLeft = cropSurface(goalLeftWidth/2+self.adjust, goalLeftHeight/2 + self.adjust, goalLeftWidth/2-self.adjust, goalLeftHeight/2-self.adjust, self.goalLeft)
+        self.goalLeft = self.cropSurface(goalLeftWidth/2+self.adjust, goalLeftHeight/2 + self.adjust, goalLeftWidth/2-self.adjust, goalLeftHeight/2-self.adjust, self.goalLeft)
 
     def loadGoalMiddle(self, name):
         self.goalMiddle = pygame.image.load(name).convert_alpha()
         self.goalMiddle = pygame.transform.scale(self.goalMiddle, (250, 270))
         goalMiddleWidth = self.goalMiddle.get_rect().width
         goalMiddleHeight = self.goalMiddle.get_rect().height
-        self.goalMiddle = cropSurface(goalMiddleWidth, goalMiddleHeight/2+self.adjust, 0, goalMiddleHeight/2-self.adjust, self.goalMiddle)
+        self.goalMiddle = self.cropSurface(goalMiddleWidth, goalMiddleHeight/2+self.adjust, 0, goalMiddleHeight/2-self.adjust, self.goalMiddle)
 
     def loadGoalRight(self, name):
         self.goalRight = pygame.image.load(name).convert_alpha()
         self.goalRight = pygame.transform.scale(self.goalRight, (250, 270))
         goalRightWidth = self.goalRight.get_rect().width
         goalRightHeight = self.goalRight.get_rect().height
-        self.goalRight = cropSurface(goalRightWidth/2+self.adjust, goalRightHeight/2+self.adjust, 0, goalRightHeight/2-self.adjust, self.goalRight)
+        self.goalRight = self.cropSurface(goalRightWidth/2+self.adjust, goalRightHeight/2+self.adjust, 0, goalRightHeight/2-self.adjust, self.goalRight)
 
     def setStart(self):
         self.goalStart = (self.screenDimensions[0] - self.goalLeft.get_rect().width - self.goalMiddle.get_rect().width - self.goalRight.get_rect().width)/2
@@ -173,23 +173,6 @@ class Player(Game):
         self.footX = (self.playerX + distanceToShoulder * math.cos(shoulderAngle) - 20*xMove*normMove)
         self.footY=(self.playerY - distanceToShoulder * math.sin(shoulderAngle) - 20*yMove*normMove)
         self.foot = pygame.transform.rotate(self.footStart,self.currentRotation)
-
-def cropSurface(newWidth, newHeight, cropWidth, cropHeight, image):
-    newSurf = pygame.Surface((newWidth, newHeight), pygame.SRCALPHA, 32)     # 32-bit pixels
-    newSurf.blit(image, (0, 0), (cropWidth, cropHeight, newWidth, newHeight))
-    return newSurf
-
-# def movePlayer(direction,radius,absRot):
-#     yChange = 5
-#     deltaTheta = int(90/(radius/yChange))
-#     if direction == 'Left':
-#         deltaTheta *= -1
-#     finalRot = (absRot + deltaTheta)*math.pi/180    # Final position in radians
-
-#     Hypotenuse = (radius * math.sin(finalRot)/(math.sin((math.pi - finalRot)/2)))
-#     newX = Hypotenuse * math.cos(math.pi/2 - (math.pi-finalRot)/2)
-#     newY = Hypotenuse * math.sin(math.pi/2 - (math.pi-finalRot)/2)
-#     return newX, newY, absRot + deltaTheta
 
 def updateFrameImages(showFoot = False):
     global background, newPlayer, newBall
