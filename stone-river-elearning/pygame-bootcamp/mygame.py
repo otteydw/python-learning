@@ -133,6 +133,7 @@ while not finished:
             playerX = playerXOriginal + changeX
             playerY = playerYOriginal - changeY
     elif pressedKeys[pygame.K_SPACE]:
+        # I think this catches multiple space presses on a single press.  It causes the player to sometimes move after it reaches the ball.
         print("SPACE KEY")
         xMove = (playerX - ballX)/10    # Make small steps toward the ball
         yMove = (playerY - ballY)/10
