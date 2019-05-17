@@ -67,7 +67,7 @@ class Background(Game):
 class Ball(Game):
     def __init__(self, screen, screenDimensions):
         Game.__init__(self, screen, screenDimensions)
-        self.ballX = self.screenDimensions[0]
+        self.ballX = self.screenDimensions[0]/2
         self.ballY = 450
         self.ball = None
 
@@ -85,7 +85,7 @@ class Ball(Game):
         yMove=(playerY - self.ballY)/10
         normMove=1/math.sqrt(xMove**2 + yMove**2)
         self.ballXDirection = xMove * normMove
-        self.ballYDirection=yMove * normMove
+        self.ballYDirection = yMove * normMove
 
     def kickBall(self,speed):
         self.ballX -= speed*self.ballXDirection
@@ -115,7 +115,7 @@ class Player(Game):
         self.player = pygame.image.load(name).convert_alpha()
         playerWidth = self.player.get_rect().width
         playerHeight = self.player.get_rect().height
-        self.player=pygame.transform.scale(self.player, (playerWidth*rescale, playerHeight*rescale))
+        self.player = pygame.transform.scale(self.player, (playerWidth*rescale, playerHeight*rescale))
         self.player = pygame.transform.rotate(self.player, 90)
         self.playerStart = self.player
 
@@ -129,9 +129,11 @@ class Player(Game):
 
     def rotatePlayer(self, angle):
         self.player = pygame.transform.rotate(self.playerStart, angle)
+        # self.player = pygame.transform.rotate(self.player, angle)
 
     def rotateFoot(self, angle):
         self.foot = pygame.transform.rotate(self.footStart, angle)
+        # self.foot = pygame.transform.rotate(self.foot, angle)
 
     def movePlayer(self, direction):
         if direction == 'Left':
@@ -177,18 +179,17 @@ def cropSurface(newWidth, newHeight, cropWidth, cropHeight, image):
     newSurf.blit(image, (0, 0), (cropWidth, cropHeight, newWidth, newHeight))
     return newSurf
 
-def movePlayer(direction,radius,absRot):
-    yChange = 5
-    # deltaTheta = 5
-    deltaTheta = int(90/(radius/yChange))
-    if direction == 'Left':
-        deltaTheta *= -1
-    finalRot = (absRot + deltaTheta)*math.pi/180    # Final position in radians
+# def movePlayer(direction,radius,absRot):
+#     yChange = 5
+#     deltaTheta = int(90/(radius/yChange))
+#     if direction == 'Left':
+#         deltaTheta *= -1
+#     finalRot = (absRot + deltaTheta)*math.pi/180    # Final position in radians
 
-    Hypotenuse = (radius * math.sin(finalRot)/(math.sin((math.pi - finalRot)/2)))
-    newX = Hypotenuse * math.cos(math.pi/2 - (math.pi-finalRot)/2)
-    newY = Hypotenuse * math.sin(math.pi/2 - (math.pi-finalRot)/2)
-    return newX, newY, absRot + deltaTheta
+#     Hypotenuse = (radius * math.sin(finalRot)/(math.sin((math.pi - finalRot)/2)))
+#     newX = Hypotenuse * math.cos(math.pi/2 - (math.pi-finalRot)/2)
+#     newY = Hypotenuse * math.sin(math.pi/2 - (math.pi-finalRot)/2)
+#     return newX, newY, absRot + deltaTheta
 
 def updateFrameImages(showFoot = False):
     global background, newPlayer, newBall
