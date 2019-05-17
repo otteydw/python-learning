@@ -102,14 +102,14 @@ class Player(Game):
     def __init__(self, screen, screenDimensions):
         Game.__init__(self, screen, screenDimensions)
         self.player = None
-        self.playerStart=self.player
+        self.playerStart = self.player
         self.foot = None
-        self.footStart=self.foot
+        self.footStart = self.foot
 
-        self.playerX=screenDimensions[0]/2
-        self.playerY=530
-        self.playerXOriginal=self.playerX
-        self.playerYOriginal=self.playerY
+        self.playerX = screenDimensions[0]/2
+        self.playerY = 530
+        self.playerXOriginal = self.playerX
+        self.playerYOriginal = self.playerY
 
         self.footX = None
         self.footY = None
@@ -117,6 +117,17 @@ class Player(Game):
         self.currentRotation = 0
         self.radius = 80
         self.deltaTheta = int(90/(self.radius/5))
+
+        self.font = pygame.font.SysFont("Arial", 25)
+        self.score = 0
+        self.scoreText = self.font.render("Score: "+str(self.score), True, (255, 255, 255))     # Render the font, anti-aliasing true, color white
+
+    def scored(self):
+        self.score += 1
+        self.scoreText = self.font.render("Score: "+str(self.score), True, (255, 255, 255))     # Render the font, anti-aliasing true, color white
+
+    def blitScore(self):
+        self.screen.blit(self.scoreText,(800-self.scoreText.get_width()/2,50-self.scoreText.get_height()/2))
 
     def resetPlayer(self):
         self.playerX = self.playerXOriginal
@@ -136,17 +147,15 @@ class Player(Game):
         self.foot = pygame.image.load(name).convert_alpha()
         footWidth = self.foot.get_rect().width
         footHeight = self.foot.get_rect().height
-        self.foot=pygame.transform.scale(self.foot, (footWidth*rescale, footHeight*rescale))
+        self.foot = pygame.transform.scale(self.foot, (footWidth*rescale, footHeight*rescale))
         self.foot = pygame.transform.rotate(self.foot, 90)
-        self.footStart=self.foot
+        self.footStart = self.foot
 
     def rotatePlayer(self, angle):
         self.player = pygame.transform.rotate(self.playerStart, angle)
-        # self.player = pygame.transform.rotate(self.player, angle)
 
     def rotateFoot(self, angle):
         self.foot = pygame.transform.rotate(self.footStart, angle)
-        # self.foot = pygame.transform.rotate(self.foot, angle)
 
     def movePlayer(self, direction):
         if direction == 'Left':
@@ -233,6 +242,7 @@ class Target(Game):
 def updateFrameImages(showFoot = False):
     global background, newPlayer, newBall
     background.blitBackground()
+    newPlayer.blitScore()
 
     if showFoot:
         newPlayer.blitFoot()
@@ -335,7 +345,9 @@ while not finished:
             game.updateFrame()
 
         if hitTarget:
-            print("Hit!")
+            newPlayer.scored()
+            updateFrameImages()
+            game.updateFrame()
 
         newPlayer.resetPlayer()
         newBall.resetBall()
