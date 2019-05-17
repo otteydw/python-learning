@@ -77,7 +77,7 @@ class Ball(Game):
         ballHeight = self.ball.get_rect().height
         self.ball = pygame.transform.scale(self.ball, (ballWidth*rescaleBall, ballHeight*rescaleBall))
 
-    def blitBall(self)):
+    def blitBall(self):
         self.screen.blit(self.ball, (self.ballX - self.ball.get_rect().width / 2, self.ballY - self.ball.get_rect().height/2))
 
     def setKickDirection(self, playerX, playerY):
