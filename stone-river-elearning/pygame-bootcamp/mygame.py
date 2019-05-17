@@ -187,6 +187,49 @@ class Player(Game):
         self.footY=(self.playerY - distanceToShoulder * math.sin(shoulderAngle) - 20*yMove*normMove)
         self.foot = pygame.transform.rotate(self.footStart,self.currentRotation)
 
+class Target(Game):
+    def __init__(self,screen,screenDimensions,start,goalHeight,goalEnd):
+        Game.__init__(self.screen,screenDimensions)
+        self.targetX = start
+        self.targetY = goalHeight
+        self.target = None
+        self.xDirection = 1
+        self.goalEnd = goalEnd
+        self.start = start
+
+    def loadTarget(self,name):
+        self.target = pygame.image.load(name).convert_alpha()
+        self.target = pygame.transform.scale(self.target,(50,50))
+        self.targetWidth = self.target.get_rect().width
+        self.targetHeight = self.target.get_rect().height
+
+    def blitTarget(self):
+        self.screen.blit(self.target,(self.targetX,self.targetY-self.targetHeight/2))
+
+    def moveTarget(self,speed):
+        self.targetX += self.xDirection*speed
+        if self.targetX + self.targetWidth >= self.goalEnd - 10:
+            self.xDirection = -1
+        elif self.targetX <= self.start + 10:
+            self.xDirection = 1
+
+    def checkTargetHit(self, ballXLeft, ballWidth, ballYTop, ballHeight):
+        ballBoxX = (ballXLeft, ballXLeft+ballWidth)
+        ballBoxY = (ballYTop, ballYTop+ballHeight)
+        targetBoxX = (self.targetX, self.targetX+self.targetWidth)
+        targetBoxY = (self.targetY-self.targetHeight/2, self.targetY+self.targetHeight/2)
+
+        if ballBoxX[0]>=targetBoxX[0] and ballBoxX[0]<=targetBoxX[1]:
+            if ballBoxY[0]>=targetBoxY[0] and ballBoxY[0] <= targetBoxY[1]:
+                return True
+            if ballBoxY[1]>=targetBoxY[0] and ballBoxY[1] <= targetBoxY[1]:
+                return True
+        elif ballBoxX[1]>=targetBoxX[0] and ballBoxX[1]<=targetBoxX[1]:
+            if ballBoxY[0]>=targetBoxY[0] and ballBoxY[0] <= targetBoxY[1]:
+                return True
+            if ballBoxY[1]>=targetBoxY[0] and ballBoxY[1] <= targetBoxY[1]:
+                return True
+
 def updateFrameImages(showFoot = False):
     global background, newPlayer, newBall
     background.blitBackground()
