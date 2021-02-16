@@ -118,4 +118,35 @@ def solution(n, encrypted_message):
 
 
 # print(solution(10, [1, 2, 3, 5, 4, 5, 3, 1]))
-print(solution(9565, [73153709, 73410599, 73564913, 73770857, 73925603, 74028791, 74235407, 74390621, 74442383, 74563189, 74718727, 74908961, 75099547, 75220913, 75325037, 75429209, 75533477, 75620407, 75742193, 75864091, 75968647, 76125589, 76282747, 76370117, 76457527]))
+# print(solution(9565, [73153709, 73410599, 73564913, 73770857, 73925603, 74028791, 74235407, 74390621, 74442383, 74563189, 74718727, 74908961, 75099547, 75220913, 75325037, 75429209, 75533477, 75620407, 75742193, 75864091, 75968647, 76125589, 76282747, 76370117, 76457527]))
+
+
+import time
+import json
+from tqdm import tqdm
+
+with open('tests.json', 'r') as f:
+    tests = json.load(f)
+
+
+# solution
+
+passed = 0
+failed = []
+print("Checking cases...")
+start = time.time()
+for case in tqdm(range(len(tests[0]))):
+    check = solution(*tests[0][case])
+    if check == tests[1][case]:
+        passed += 1
+    else:
+        failed.append([tests[0][case], tests[1][case], check])
+
+print(f'Passed {passed} cases out of {len(tests[0])}')
+print(f'Time taken: {time.time() - start}')
+
+if len(failed) > 0:
+    # print('\n\ntop three failed cases:')
+    for i in range(2):
+        if i < len(failed):
+            print(f'case:{failed[i][0]}\ncorrect answer:{failed[i][1]}\nsolution answer:{failed[i][2]}\n')
