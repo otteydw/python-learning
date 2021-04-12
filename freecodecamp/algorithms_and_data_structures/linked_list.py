@@ -102,6 +102,58 @@ class LinkedList:
             prev_node.next_node = new_node
             new_node.next_node = next_node
 
+    def remove(self, key):
+        """Removes the first node containing the given key
+
+        Args:
+            key (?): The key to remove
+        """
+
+        current = self.head
+        prev_node = None
+
+        while current:
+            if current.data == key:
+                next_node = current.next_node
+                if current == self.head:
+                    self.head = next_node
+                else:
+                    prev_node.next_node = next_node
+                return True
+
+            prev_node = current
+            current = current.next_node
+
+        print('Key not found!')
+        return False
+
+    def remove_at_index(self, index):
+        """Removes the node at the given index
+
+        Args:
+            index (int): The index of the node to delete
+        """
+
+        current = self.head
+        prev_node = None
+        position = 0
+
+        while current:
+
+            if position == index:
+                next_node = current.next_node
+                if current == self.head:
+                    self.head = next_node
+                else:
+                    prev_node.next_node = next_node
+                return True
+            else:
+                prev_node = current
+                current = current.next_node
+                position += 1
+
+        print('Index not found!')
+        return False
 
     def __repr__(self):
         """Returns a string representation of the list
