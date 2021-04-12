@@ -70,6 +70,39 @@ class LinkedList:
                 current = current.next_node
         return None
 
+    def insert(self, data, index):
+        """Inserts a new node containing data at index position
+
+        Insertion takes 0(1) time but finding the nde at the insertion point
+        takes 0(n) time.
+
+        Takes overall 0(n) time
+
+        Args:
+            data (?): Data to insert
+            index (int): Index position of insertion point
+        """
+
+        if index == 0:
+            self.add(data)
+
+        if index > 0:
+            new_node = Node(data)
+
+            position = index
+            current = self.head
+
+            while position > 1:
+                current = self.next_node
+                position -= 1
+
+            prev_node = current
+            next_node = current.next_node
+
+            prev_node.next_node = new_node
+            new_node.next_node = next_node
+
+
     def __repr__(self):
         """Returns a string representation of the list
         Takes O(n) time
@@ -89,3 +122,10 @@ class LinkedList:
             current = current.next_node
 
         return '-> '.join(nodes)
+
+
+l = LinkedList()
+l.add(5)
+l.add(4)
+l.add(6)
+l
