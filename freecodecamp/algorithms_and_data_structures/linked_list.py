@@ -164,6 +164,30 @@ class LinkedList:
         print('Index not found!')
         return False
 
+    def node_at_index(self, index):
+        """Returns the node at the given index
+
+        Args:
+            index (int): The index of the node to delete
+
+        Returns:
+            Node: The node at the given index
+        """
+
+        current = self.head
+        position = 0
+
+        while current:
+
+            if position == index:
+                return current
+            else:
+                current = current.next_node
+                position += 1
+
+        print('Index not found!')
+        return None
+
     def __repr__(self):
         """Returns a string representation of the list
         Takes O(n) time
