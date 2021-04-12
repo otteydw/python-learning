@@ -208,9 +208,9 @@ class LinkedList:
 
         return '-> '.join(nodes)
 
-
-l = LinkedList()
-l.add(5)
-l.add(4)
-l.add(6)
-l
+if __name__ == '__main__':
+    # Create a sample linked list to experiment with
+    l = LinkedList()
+    l.add(5)
+    l.add(4)
+    l.add(6)
