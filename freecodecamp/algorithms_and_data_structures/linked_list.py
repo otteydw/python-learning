@@ -102,6 +102,15 @@ class LinkedList:
             prev_node.next_node = new_node
             new_node.next_node = next_node
 
+    def remove_head(self):
+        """Removes the head node
+        """
+
+        if not self.is_empty():
+            original_head = self.head
+            next_node = original_head.next_node
+            self.head = next_node
+
     def remove(self, key):
         """Removes the first node containing the given key
 
@@ -116,7 +125,7 @@ class LinkedList:
             if current.data == key:
                 next_node = current.next_node
                 if current == self.head:
-                    self.head = next_node
+                    self.remove_head()
                 else:
                     prev_node.next_node = next_node
                 return True
@@ -143,7 +152,7 @@ class LinkedList:
             if position == index:
                 next_node = current.next_node
                 if current == self.head:
-                    self.head = next_node
+                    self.remove_head()
                 else:
                     prev_node.next_node = next_node
                 return True
