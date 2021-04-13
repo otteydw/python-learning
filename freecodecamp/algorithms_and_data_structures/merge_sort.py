@@ -5,6 +5,8 @@ def merge_sort(list):
     Conquer: Recursively sort the sublists from the previous step
     Combine: Merge the sorted sublists created in the previous step
 
+    Runs in overall O(n log n)
+
     Args:
         list ([type]): [description]
 
@@ -27,6 +29,8 @@ def merge_sort(list):
 def split(mylist):
     """Divide the unsorted list at midpoint into sublists
 
+    Takes overall O(log n)
+
     Args:
         list (list): The list to be split
 
@@ -43,6 +47,8 @@ def split(mylist):
 
 def merge(left, right):
     """Merges two lists, sorting them in the process
+
+    Runs in overall linear time 0(n)
 
     Args:
         list1 ([type]): [description]
