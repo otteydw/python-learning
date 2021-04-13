@@ -80,6 +80,8 @@ def merge(left, right):
 def verify_sorted(mylist):
     """Determine if a list is sorted
 
+    This is the iterative approach.
+
     Args:
         mylist (array): A list to check for sortedness.
 
@@ -91,6 +93,23 @@ def verify_sorted(mylist):
         if index < len(mylist) - 1 and value > mylist[index + 1]:
             return False
     return True
+
+def verify_sorted_recursive(mylist):
+    """Determine if a list is sorted
+
+    This is the recursive approach.
+
+    Args:
+        mylist (array): A list to check for sortedness.
+
+    Returns:
+        boolean: True if the list is sorted. Otherwise false.
+    """
+
+    if len(mylist) <= 1:
+        return True
+
+    return mylist[0] <= mylist[1] and verify_sorted_recursive(mylist[1:])
 
 if __name__ == '__main__':
 
@@ -109,3 +128,6 @@ if __name__ == '__main__':
 
     one_element = [7]
     print(verify_sorted(one_element))
+
+    print(verify_sorted_recursive(alist))
+    print(verify_sorted_recursive(l))
