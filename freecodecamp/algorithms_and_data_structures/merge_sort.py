@@ -77,10 +77,35 @@ def merge(left, right):
 
     return new_list
 
+def verify_sorted(mylist):
+    """Determine if a list is sorted
+
+    Args:
+        mylist (array): A list to check for sortedness.
+
+    Returns:
+        boolean: True if the list is sorted. Otherwise false.
+    """
+
+    for index, value in enumerate(mylist):
+        if index < len(mylist) - 1 and value > mylist[index + 1]:
+            return False
+    return True
+
 if __name__ == '__main__':
 
     alist = [100, 27, 53, 29, 68, 12, 9, 0]
 
+    print(verify_sorted(alist))
+
     l = merge_sort(alist)
 
     print(l)
+
+    print(verify_sorted(l))
+
+    empty_list = []
+    print(verify_sorted(empty_list))
+
+    one_element = [7]
+    print(verify_sorted(one_element))
